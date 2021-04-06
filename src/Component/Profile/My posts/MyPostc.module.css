@@ -1,0 +1,24 @@
+.MyPosts button{
+    background: gold;
+    font-weight: bold;
+    color: #030303;
+    width: 100px;
+    padding: 7px;
+    margin: 5px 20px 20px 300px;
+    border: #020202 solid 1px;
+    border-radius: 7px;
+
+}
+
+.MyPosts textarea{
+    width: 400px;
+    height: 80px;
+    margin: 10px;
+    border: #020202 solid 1px;
+    border-radius: 7px;
+}
+
+.PostsBlock{
+    padding: 15px;
+
+}

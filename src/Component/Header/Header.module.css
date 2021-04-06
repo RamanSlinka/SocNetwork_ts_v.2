@@ -1,0 +1,12 @@
+
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1200px;
+    background-image: url("https://scontent-frt3-1.xx.fbcdn.net/v/t1.0-9/158336135_1671975789664615_6565677640874887060_o.jpg?_nc_cat=108&ccb=1-3&_nc_sid=730e14&_nc_eui2=AeG_kpn0S3GMYT0w8ETCZgNcyN_jAe59mbHI3-MB7n2ZsX8Fx2W44gQ5cxj9BiXWNMsbRuyrzZMPyPBtEPXZDWM1&_nc_ohc=x6KunJHfT2UAX-M9gVZ&_nc_ht=scontent-frt3-1.xx&oh=632ba4672fbc4f6831a6947174a58a02&oe=606A5084");
+    grid-area: h;
+    border: #fcfcfc 0.5px solid;
+    border-radius: 7px;
+
+}
