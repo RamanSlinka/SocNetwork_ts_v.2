@@ -1,0 +1,9 @@
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  .avatar{
+    width: 120px;
+    padding: 10px;
+    border-radius: 25%;
+  }
+}
