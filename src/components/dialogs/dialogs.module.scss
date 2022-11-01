@@ -1,0 +1,17 @@
+.dialogs{
+  display: grid;
+
+  grid-template-columns: 2fr 10fr;
+  .users{
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    .user{
+      text-decoration: none;
+      color: #f1eeec;
+    }
+    a.active{
+      color: orange;
+    }
+  }
+}
