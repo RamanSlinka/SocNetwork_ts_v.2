@@ -39,14 +39,20 @@
 
 
 .app-wrapper {
-    display: grid;
+  display: grid;
 
-    grid-template-areas:
+  grid-template-areas:
             "head head head"
             "nav con con";
 
-    grid-template-rows: 60px 1fr;
-    grid-template-columns: 2fr 10fr;
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 2fr 10fr;
+  grid-gap: 10px;
+}
+
+.app-wrapper-content{
+  grid-area: con;
+  background-color: #a28c8c;
 }
 
 
