@@ -1,5 +1,5 @@
 {
-  "name": "social network",
+  "name": "SocialNetwork",
   "version": "2.0",
   "private": true,
   "author": "Raman Slinka",
@@ -24,6 +24,7 @@
     "redux-form": "8.3.8",
     "redux-thunk": "2.4.1",
     "reselect": "4.1.5",
+    "sass": "^1.55.0",
     "typescript": "4.4.2",
     "uuid": "8.3.2",
     "web-vitals": "2.1.0"
