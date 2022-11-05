@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {FC, PropsWithChildren, ReactNode} from 'react';
 import Post from "./post/Post";
+import {PostType} from "../../../ redux/state";
 
-const MyPosts = () => {
 
-    const postsData = [
-        {message:'message 1', likesCount:'1', id: 1},
-        {message:'message 2', likesCount:'3', id: 2},
-    ]
+
+type MyPostsType = PostType[]
+
+
+const MyPosts:FC<{posts: MyPostsType }> = ({posts}) => {
+
+    console.log(posts)
+
     return (
         <div>
             <div>My posts</div>
@@ -14,7 +18,7 @@ const MyPosts = () => {
                 <textarea></textarea>
                 <button> New post</button>
                </div>
-            {postsData.map((post) => (
+            { posts.map((post: PostType) => (
                 <Post message={post.message} likesCount={post.likesCount} key={post.id} />
 
             ))}

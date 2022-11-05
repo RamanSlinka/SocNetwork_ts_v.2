@@ -1,21 +1,17 @@
-import React from 'react';
+import React, {FC} from 'react';
 import style from './dialogs.module.scss';
 import DialogItem from "./dialogItem/DialogItem";
 import Message from "./message/Message";
+import {DialogType, MessageType} from "../../ redux/state";
 
-const Dialogs = () => {
 
-    const dialogsData = [
-        {user:'User1', id:'1'},
-        {user:'User2', id:'2'},
-        {user:'User3', id:'3'},
-    ]
-    const messagesData = [
-        {message:'message1', id:'1'},
-        {message:'message2', id:'2'},
-        {message:'message3', id:'3'},
+type DialogsType = {
+    dialogsData: Array<DialogType>
+    messagesData: Array<MessageType>
+}
 
-    ]
+const Dialogs:FC<DialogsType> = ({dialogsData, messagesData}) => {
+
 
     return (
         <div className={style.dialogs}>
