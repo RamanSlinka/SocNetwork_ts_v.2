@@ -45,6 +45,12 @@ const posts = [
     {message: 'message 2', likesCount: '3', id: 2},
 ]
 
+
+
+let rerenderEntireTree = (state: StateType) => {
+    console.log('kjh')
+}
+
 export const state = {
     dialogsPage: {
         messages: messagesData,
@@ -52,7 +58,7 @@ export const state = {
     },
     profilePage: {
         posts: posts,
-        newPostText: 'fgh'
+        newPostText: ''
     }
 }
 
@@ -65,9 +71,15 @@ export const addPost = () => {
     }
     state.profilePage.posts.push(newPost);
     state.profilePage.newPostText = '';
-
+    rerenderEntireTree(state)
 }
 
 export const updateNewPostText = (newText: string) => {
  state.profilePage.newPostText = newText
+    rerenderEntireTree(state)
+}
+
+
+export const subscribe = (observer: (state:  StateType) => void) => {
+    rerenderEntireTree = observer
 }

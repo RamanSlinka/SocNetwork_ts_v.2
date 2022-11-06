@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import style from './profile.module.scss'
 import MyPosts  from "./myPosts/MyPosts";
 import ProfileInfo from "./profileInfo/ProfileInfo";
-import {PostType, updateNewPostText} from "../../ redux/state";
+import {PostType} from "../../ redux/state";
 
 type ProfileType = {
     posts: PostType[]

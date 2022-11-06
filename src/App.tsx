@@ -5,7 +5,7 @@ import Navbar from "./components/navbar/Navbar";
 import Profile from './components/profile/Profile';
 import Dialogs from "./components/dialogs/Dialogs";
 import {Route} from "react-router-dom";
-import {StateType, updateNewPostText} from "./ redux/state";
+import {StateType} from "./ redux/state";
 
 
 type AppType = {
