@@ -1,25 +1,47 @@
-import React, {FC, PropsWithChildren, ReactNode} from 'react';
+import React, {FC, PropsWithChildren, ReactNode, useEffect} from 'react';
 import Post from "./post/Post";
-import {PostType} from "../../../ redux/state";
+import {PostType, updateNewPostText} from "../../../ redux/state";
 
 
+type MyPostsType = {
+    posts: PostType[]
+    addPost: () => void
+    newPostText: string
+    updateNewPostText: (text: string) => void
+}
 
-type MyPostsType = PostType[]
+
+const MyPosts: FC<MyPostsType> = ({
+                                      posts, addPost,
+                                      newPostText, updateNewPostText
+                                  }) => {
 
 
-const MyPosts:FC<{posts: MyPostsType }> = ({posts}) => {
+    const newPostElement: React.RefObject<any> = React.createRef();
+    const addPostHandler = () => {
+        addPost()
+        updateNewPostText('')
+    }
 
-    console.log(posts)
+    const onPostChange = () => {
+        const text = newPostElement.current.value
+        updateNewPostText(text)
+
+    }
+
 
     return (
         <div>
             <div>My posts</div>
             <div>
-                <textarea></textarea>
-                <button> New post</button>
-               </div>
-            { posts.map((post: PostType) => (
-                <Post message={post.message} likesCount={post.likesCount} key={post.id} />
+                <textarea ref={newPostElement}
+                          value={newPostText}
+                          onChange={onPostChange}
+                />
+                <button onClick={addPostHandler}> New post</button>
+            </div>
+            {posts.map((post: PostType) => (
+                <Post message={post.message} likesCount={post.likesCount} key={post.id}/>
 
             ))}
 
