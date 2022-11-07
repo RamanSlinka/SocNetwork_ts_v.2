@@ -1,6 +1,6 @@
-import React, {FC, PropsWithChildren, ReactNode, useEffect} from 'react';
+import React, {FC} from 'react';
 import Post from "./post/Post";
-import {PostType, updateNewPostText} from "../../../ redux/state";
+import {PostType} from "../../../ redux/state";
 
 
 type MyPostsType = {
@@ -17,16 +17,15 @@ const MyPosts: FC<MyPostsType> = ({
                                   }) => {
 
 
-    const newPostElement: React.RefObject<any> = React.createRef();
+    const newPostElement = React.createRef<HTMLTextAreaElement>();
     const addPostHandler = () => {
         addPost()
         updateNewPostText('')
     }
 
     const onPostChange = () => {
-        const text = newPostElement.current.value
+        const text:  any=  newPostElement.current?.value
         updateNewPostText(text)
-
     }
 
 

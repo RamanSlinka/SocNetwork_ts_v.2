@@ -51,35 +51,40 @@ let rerenderEntireTree = (state: StateType) => {
     console.log('kjh')
 }
 
-export const state = {
-    dialogsPage: {
-        messages: messagesData,
-        dialogs: dialogsData
+
+
+export  const store  = {
+    _state : {
+        dialogsPage: {
+            messages: messagesData,
+            dialogs: dialogsData
+        },
+        profilePage: {
+            posts: posts,
+            newPostText: ''
+        }
     },
-    profilePage: {
-        posts: posts,
-        newPostText: ''
+    getState() {
+      return this._state
+    },
+    _callSubscriber(_state: StateType){
+        console.log(_state)
+    },
+    addPost () {
+        const newPost = {
+            message: this._state.profilePage.newPostText,
+            likesCount: '0',
+            id: 5
+        }
+        this._state.profilePage.posts.push(newPost);
+        this._state.profilePage.newPostText = '';
+        this._callSubscriber(this._state)
+    },
+    updateNewPostText  (newText: string)  {
+        this._state.profilePage.newPostText = newText
+        this._callSubscriber(this._state)
+    },
+    subscribe  (observer: (state:  StateType) => void) {
+        this._callSubscriber = observer
     }
-}
-
-
-export const addPost = () => {
-    const newPost = {
-        message: state.profilePage.newPostText,
-        likesCount: '0',
-        id: 5
-    }
-    state.profilePage.posts.push(newPost);
-    state.profilePage.newPostText = '';
-    rerenderEntireTree(state)
-}
-
-export const updateNewPostText = (newText: string) => {
- state.profilePage.newPostText = newText
-    rerenderEntireTree(state)
-}
-
-
-export const subscribe = (observer: (state:  StateType) => void) => {
-    rerenderEntireTree = observer
 }
