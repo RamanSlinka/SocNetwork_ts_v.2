@@ -28,6 +28,25 @@ export type StateType = {
     }
 }
 
+export type StoreType = {
+    _state: StateType
+    _callSubscriber: () => void
+    getState: () => StateType
+    subscribe: (callback: () => void) => void
+    dispatch: (action: Actions) => void
+}
+
+export type Actions = AddPostActionType | UpdateNewPostActionType
+
+type AddPostActionType = {
+    type: 'ADD-POST'
+}
+
+type UpdateNewPostActionType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newText: string | undefined
+}
+
 
 const dialogsData = [
     {user: 'User1', id: '1'},
@@ -47,9 +66,7 @@ const posts = [
 
 
 
-let rerenderEntireTree = (state: StateType) => {
-    console.log('kjh')
-}
+
 
 
 
@@ -64,27 +81,45 @@ export  const store  = {
             newPostText: ''
         }
     },
-    getState() {
-      return this._state
-    },
     _callSubscriber(_state: StateType){
         console.log(_state)
     },
-    addPost () {
-        const newPost = {
-            message: this._state.profilePage.newPostText,
-            likesCount: '0',
-            id: 5
-        }
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.newPostText = '';
-        this._callSubscriber(this._state)
-    },
-    updateNewPostText  (newText: string)  {
-        this._state.profilePage.newPostText = newText
-        this._callSubscriber(this._state)
+
+    getState() {
+      return this._state
     },
     subscribe  (observer: (state:  StateType) => void) {
         this._callSubscriber = observer
+    },
+
+    // addPost () {
+    //     const newPost = {
+    //         message: this._state.profilePage.newPostText,
+    //         likesCount: '0',
+    //         id: 5
+    //     }
+    //     this._state.profilePage.posts.push(newPost);
+    //     this._state.profilePage.newPostText = '';
+    //     this._callSubscriber(this._state)
+    // },
+    // updateNewPostText  (newText: string)  {
+    //     this._state.profilePage.newPostText = newText
+    //     this._callSubscriber(this._state)
+    // },
+
+    dispatch(action: any){
+        if(action.type === 'ADD-POST') {
+            const newPost = {
+                message: this._state.profilePage.newPostText,
+                likesCount: '0',
+                id: 5
+            }
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = '';
+            this._callSubscriber(this._state)
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText
+            this._callSubscriber(this._state)
+        }
     }
 }

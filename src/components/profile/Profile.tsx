@@ -2,25 +2,25 @@ import React, {FC} from 'react';
 import style from './profile.module.scss'
 import MyPosts  from "./myPosts/MyPosts";
 import ProfileInfo from "./profileInfo/ProfileInfo";
-import {PostType} from "../../ redux/state";
+import {Actions, PostType} from "../../ redux/state";
 
 type ProfileType = {
     posts: PostType[]
-    addPost: () => void
+    dispatch: (action: Actions) => void
     newPostText: string
-    updateNewPostText: (text: string) => void
+
 }
 
 
-const Profile:FC<ProfileType> = ({posts, addPost, newPostText, updateNewPostText}) => {
+const Profile:FC<ProfileType> = ({posts, dispatch, newPostText}) => {
 
     return (
         <div className={style.content}>
             <ProfileInfo/>
             <MyPosts posts={posts}
-                     addPost={addPost}
+                     dispatch={dispatch}
                      newPostText={newPostText}
-                     updateNewPostText={updateNewPostText}
+
             />
 
         </div>
