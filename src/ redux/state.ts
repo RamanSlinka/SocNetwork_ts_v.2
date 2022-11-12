@@ -1,6 +1,3 @@
-
-
-
 export type DialogType = {
     user: string
     id: string
@@ -65,13 +62,8 @@ const posts = [
 ]
 
 
-
-
-
-
-
-export  const store  = {
-    _state : {
+export const store = {
+    _state: {
         dialogsPage: {
             messages: messagesData,
             dialogs: dialogsData
@@ -81,34 +73,19 @@ export  const store  = {
             newPostText: ''
         }
     },
-    _callSubscriber(_state: StateType){
+    _callSubscriber(_state: StateType) {
         console.log(_state)
     },
 
     getState() {
-      return this._state
+        return this._state
     },
-    subscribe  (observer: (state:  StateType) => void) {
+    subscribe(observer: (state: StateType) => void) {
         this._callSubscriber = observer
     },
 
-    // addPost () {
-    //     const newPost = {
-    //         message: this._state.profilePage.newPostText,
-    //         likesCount: '0',
-    //         id: 5
-    //     }
-    //     this._state.profilePage.posts.push(newPost);
-    //     this._state.profilePage.newPostText = '';
-    //     this._callSubscriber(this._state)
-    // },
-    // updateNewPostText  (newText: string)  {
-    //     this._state.profilePage.newPostText = newText
-    //     this._callSubscriber(this._state)
-    // },
-
-    dispatch(action: any){
-        if(action.type === 'ADD-POST') {
+    dispatch(action: any) {
+        if (action.type === 'ADD-POST') {
             const newPost = {
                 message: this._state.profilePage.newPostText,
                 likesCount: '0',
@@ -123,3 +100,13 @@ export  const store  = {
         }
     }
 }
+
+
+type AddPostACType = { type: 'ADD-POST' }
+type UpdateNewPostTextACType = { type: 'UPDATE-NEW-POST-TEXT', newText: string | undefined }
+
+export type ActionsType = AddPostACType | UpdateNewPostTextACType
+
+export const addPost = (): AddPostACType => ({type: 'ADD-POST'} as const)
+export const updateNewPostText = (text: string | undefined): UpdateNewPostTextACType =>
+    ({type: 'UPDATE-NEW-POST-TEXT', newText: text})
