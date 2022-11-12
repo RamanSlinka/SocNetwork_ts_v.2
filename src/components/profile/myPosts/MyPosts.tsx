@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import Post from "./post/Post";
-import {ActionsType, addPost, PostType, updateNewPostText} from "../../../ redux/state";
+import {ActionsType,  PostType, } from "../../../ redux/state";
+import {addPost, updateNewPostText} from "../../../ redux/profileReducer";
 
 
 type MyPostsType = {

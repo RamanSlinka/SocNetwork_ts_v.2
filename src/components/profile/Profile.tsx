@@ -7,7 +7,7 @@ import {ActionsType, PostType} from "../../ redux/state";
 type ProfileType = {
     posts: PostType[]
     dispatch: (action: ActionsType) => void
-    newPostText: string
+    newPostText: string | undefined
 
 }
 

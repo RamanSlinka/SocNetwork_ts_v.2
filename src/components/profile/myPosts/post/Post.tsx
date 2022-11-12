@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import style from './post.module.scss'
 
 type PostType = {
-    message: string
+    message: string |undefined
     likesCount: string
 }
 

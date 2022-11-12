@@ -6,10 +6,10 @@ import {BrowserRouter} from "react-router-dom";
 import {StateType, store} from './ redux/state';
 // import {addPost, state, StateType, store, subscribe, updateNewPostText} from './ redux/state'
 
-let rerenderEntireTree = (state: StateType) => {
+let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state}
+            <App state={store.getState()}
                  dispatch={store.dispatch.bind(store)}
 
             />
@@ -19,5 +19,5 @@ let rerenderEntireTree = (state: StateType) => {
     );
 }
 
-rerenderEntireTree(store.getState());
+rerenderEntireTree();
 store.subscribe(rerenderEntireTree)
