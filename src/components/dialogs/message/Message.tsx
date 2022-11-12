@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import style from "../dialogs.module.scss";
 
 type MessageType = {
-    message: string
+    message: string | undefined
 }
 
 const Message:FC<MessageType> = ({message}) => {

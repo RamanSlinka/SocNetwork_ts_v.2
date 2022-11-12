@@ -2,11 +2,11 @@ import React, {FC} from 'react';
 import style from './profile.module.scss'
 import MyPosts  from "./myPosts/MyPosts";
 import ProfileInfo from "./profileInfo/ProfileInfo";
-import {Actions, PostType} from "../../ redux/state";
+import {ActionsType, PostType} from "../../ redux/state";
 
 type ProfileType = {
     posts: PostType[]
-    dispatch: (action: Actions) => void
+    dispatch: (action: ActionsType) => void
     newPostText: string
 
 }

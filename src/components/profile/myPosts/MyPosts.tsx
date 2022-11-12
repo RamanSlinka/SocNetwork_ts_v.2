@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import Post from "./post/Post";
-import {Actions, ActionsType, addPost, PostType, updateNewPostText} from "../../../ redux/state";
+import {ActionsType, addPost, PostType, updateNewPostText} from "../../../ redux/state";
 
 
 type MyPostsType = {
@@ -18,16 +18,16 @@ const MyPosts: FC<MyPostsType> = ({
 
 
     const newPostElement = React.createRef<HTMLTextAreaElement>();
+
+
+    const onPostChange = () => {
+        const text: string | undefined = newPostElement.current?.value
+        dispatch(updateNewPostText(text))
+    }
     const addPostHandler = () => {
         dispatch(addPost())
 
     }
-
-    const onPostChange = () => {
-        const text:  string | undefined =  newPostElement.current?.value
-        dispatch(updateNewPostText(text))
-    }
-
 
     return (
         <div>
