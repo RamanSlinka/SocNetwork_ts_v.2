@@ -2,7 +2,8 @@ import React, {FC} from 'react';
 import style from './profile.module.scss'
 import MyPosts  from "./myPosts/MyPosts";
 import ProfileInfo from "./profileInfo/ProfileInfo";
-import {ActionsType, PostType} from "../../ redux/state";
+import {PostType} from "../../ redux/profileReducer";
+import {ActionsType} from "../../ redux/redux-store";
 
 type ProfileType = {
     posts: PostType[]

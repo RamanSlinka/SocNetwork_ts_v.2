@@ -5,11 +5,12 @@ import Navbar from "./components/navbar/Navbar";
 import Profile from './components/profile/Profile';
 import Dialogs from "./components/dialogs/Dialogs";
 import {Route} from "react-router-dom";
-import {ActionsType, StateType} from "./ redux/state";
+import {ActionsType, AppStateType} from "./ redux/redux-store";
+
 
 
 type AppType = {
-    state: StateType
+    state: AppStateType
     dispatch: (action: ActionsType) => void
 }
 
@@ -21,10 +22,10 @@ function  App(props: AppType) {
 
             <div className="app-wrapper-content">
                 <Route path='/dialogs' render={() => <Dialogs
-                    dialogsData={props.state.dialogsPage.dialogs}
-                    messagesData={props.state.dialogsPage.messages}
+                    dialogsData={props.state.dialogPage.dialogs}
+                    messagesData={props.state.dialogPage.messages}
                     dispatch={props.dispatch}
-                    newMessage={props.state.dialogsPage.newMessageText }
+                    newMessage={props.state.dialogPage.newMessageText }
                 />}/>
                 <Route path='/profile' render={() =>
                     <Profile
