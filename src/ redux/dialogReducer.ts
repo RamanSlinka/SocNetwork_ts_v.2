@@ -1,4 +1,14 @@
-import {ActionsType, DialogType, MessageType} from "./state";
+
+
+export type DialogType = {
+    user: string
+    id: string
+}
+
+export type MessageType = {
+    message: string | undefined
+    id: string
+}
 
 export type DialogStateType ={
     messages: MessageType[]
@@ -7,7 +17,25 @@ export type DialogStateType ={
 }
 
 
-const dialogReducer = (state: DialogStateType, action: ActionsType) => {
+const dialogsData = [
+    {user: 'User1', id: '1'},
+    {user: 'User2', id: '2'},
+    {user: 'User3', id: '3'},
+]
+const messagesData = [
+    {message: 'message1', id: '1'},
+    {message: 'message2', id: '2'},
+    {message: 'message3', id: '3'},
+]
+
+const initialState: DialogStateType = {
+    messages: messagesData,
+    dialogs: dialogsData,
+    newMessageText: ''
+}
+
+
+const dialogReducer = (state=initialState , action: DialogActionType): DialogStateType => {
 
     switch (action.type) {
         case 'ADD-MESSAGE':

@@ -1,14 +1,31 @@
-import {ActionsType, PostType} from "./state";
 
+// export type ProfileStateType = {
+//     posts: PostType[]
+//     newPostText: string | undefined
+// }
 
-export type ProfileStateType = {
-    posts: PostType[]
-    newPostText: string | undefined
-
+export type PostType = {
+    message: string | undefined
+    likesCount: string
+    id: number
 }
 
+type InitialStateType = {
+    posts: PostType[]
+    newPostText: string | undefined
+}
 
-const profileReducer = (state: ProfileStateType, action: ActionsType) => {
+const posts = [
+    {message: 'message 1', likesCount: '1', id: 1},
+    {message: 'message 2', likesCount: '3', id: 2},
+]
+
+const initialState: InitialStateType = {
+    posts: posts,
+    newPostText: ''
+}
+
+const profileReducer = (state= initialState, action: ProfileActionType): InitialStateType => {
 
     switch (action.type) {
         case 'ADD-POST':
