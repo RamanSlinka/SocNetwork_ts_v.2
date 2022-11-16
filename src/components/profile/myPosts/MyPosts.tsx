@@ -2,25 +2,26 @@ import React, {FC} from 'react';
 import Post from "./post/Post";
 import {addPost, PostType, updateNewPostText} from "../../../ redux/profileReducer";
 import {ActionsType} from "../../../ redux/redux-store";
+import {useDispatch} from "react-redux";
 
 
 type MyPostsType = {
     posts: PostType[]
-    dispatch: (action: ActionsType) => void
+
     newPostText: string | undefined
 
 }
 
 
 const MyPosts: FC<MyPostsType> = ({
-                                      posts, dispatch,
+                                      posts,
                                       newPostText,
                                   }) => {
 
 
     const newPostElement = React.createRef<HTMLTextAreaElement>();
 
-
+    const dispatch = useDispatch()
     const onPostChange = () => {
         const text: string | undefined = newPostElement.current?.value
         dispatch(updateNewPostText(text))

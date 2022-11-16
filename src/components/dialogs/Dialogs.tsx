@@ -3,26 +3,26 @@ import style from './dialogs.module.scss';
 import DialogItem from "./dialogItem/DialogItem";
 import Message from "./message/Message";
 import {addMessage, DialogType, MessageType, updateNewMessageText} from "../../ redux/dialogReducer";
-import {ActionsType} from "../../ redux/redux-store";
+import { AppStateType} from "../../ redux/redux-store";
+import {useDispatch, useSelector} from "react-redux";
 
 
 type DialogsType = {
     dialogsData: Array<DialogType>
     messagesData: Array<MessageType>
-    dispatch: (action: ActionsType) => void
     newMessage: string | undefined
 }
 
-const Dialogs: FC<DialogsType> = ({
-                                      dialogsData, messagesData, dispatch, newMessage
-                                  }) => {
+const Dialogs: FC = () => {
 
+    const dialogsData = useSelector<AppStateType, DialogType[]>(state => state.dialogPage.dialogs)
+    const messagesData = useSelector<AppStateType, MessageType[]>(state => state.dialogPage.messages)
+    const newMessage = useSelector<AppStateType, string | undefined>(state => state.dialogPage.newMessageText)
+    const dispatch = useDispatch()
 
     const sendMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-
         const text: string | undefined = e.currentTarget.value
         dispatch(updateNewMessageText(text))
-
     }
 
     const onClickHandler = () => {
