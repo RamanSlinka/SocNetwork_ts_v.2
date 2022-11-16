@@ -1,4 +1,3 @@
-
 // export type ProfileStateType = {
 //     posts: PostType[]
 //     newPostText: string | undefined
@@ -25,21 +24,24 @@ const initialState: InitialStateType = {
     newPostText: ''
 }
 
-const profileReducer = (state= initialState, action: ProfileActionType): InitialStateType => {
+const profileReducer = (state = initialState, action: ProfileActionType): InitialStateType => {
 
     switch (action.type) {
-        case 'ADD-POST':
-            const newPost = {
-                message: state.newPostText,
-                likesCount: '0',
-                id: 5
-            }
-            state.posts.push(newPost);
-            state.newPostText = '';
-            return state;
-        case 'UPDATE-NEW-POST-TEXT':
-            state.newPostText = action.newText
-            return state;
+        case 'ADD-POST': {
+            const newPost = state.newPostText
+                        return {
+                            ...state,
+                            newPostText: '',
+                            posts: [
+                                {message: newPost, likesCount: '0', id: 5},
+                                ...state.posts]
+                        };
+        }
+
+        case 'UPDATE-NEW-POST-TEXT': {
+            return {...state, newPostText: action.newText};
+        }
+
         default:
             return state
     }

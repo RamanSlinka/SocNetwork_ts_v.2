@@ -1,13 +1,11 @@
 import React, {FC} from 'react';
 import Post from "./post/Post";
 import {addPost, PostType, updateNewPostText} from "../../../ redux/profileReducer";
-import {ActionsType} from "../../../ redux/redux-store";
 import {useDispatch} from "react-redux";
 
 
 type MyPostsType = {
     posts: PostType[]
-
     newPostText: string | undefined
 
 }

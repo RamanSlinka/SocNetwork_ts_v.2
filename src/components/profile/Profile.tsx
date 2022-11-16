@@ -22,7 +22,6 @@ const Profile:FC = () => {
         <div className={style.content}>
             <ProfileInfo/>
             <MyPosts posts={posts}
-
                      newPostText={newPostText}
 
             />

@@ -1,5 +1,3 @@
-
-
 export type DialogType = {
     user: string
     id: string
@@ -10,7 +8,7 @@ export type MessageType = {
     id: string
 }
 
-export type DialogStateType ={
+export type DialogStateType = {
     messages: MessageType[]
     dialogs: DialogType[]
     newMessageText: string | undefined
@@ -35,20 +33,25 @@ const initialState: DialogStateType = {
 }
 
 
-const dialogReducer = (state=initialState , action: DialogActionType): DialogStateType => {
+const dialogReducer = (state = initialState, action: DialogActionType): DialogStateType => {
 
     switch (action.type) {
-        case 'ADD-MESSAGE':
-            const newMessage = {
-                id: '5',
-                message: state.newMessageText
-            }
-            state.messages.push(newMessage);
-            state.newMessageText = '';
-            return state;
-        case 'UPDATE-NEW-MESSAGE-TEXT':
-            state.newMessageText = action.newText
-            return state;
+        case 'ADD-MESSAGE': {
+            const newMessage = state.newMessageText
+            return {
+                ...state,
+                newMessageText: '',
+                messages:
+                    [...state.messages,
+                        {id: '5', message: newMessage}
+                    ]
+            };
+        }
+
+        case 'UPDATE-NEW-MESSAGE-TEXT': {
+            return {...state, newMessageText: action.newText};
+        }
+
         default:
             return state
     }
