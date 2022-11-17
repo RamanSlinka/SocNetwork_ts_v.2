@@ -5,31 +5,19 @@ import Navbar from "./components/navbar/Navbar";
 import Profile from './components/profile/Profile';
 import Dialogs from "./components/dialogs/Dialogs";
 import {Route} from "react-router-dom";
+import Users from "./components/users/Users";
 
 
-
-
-function  App() {
+function App() {
     return (
         <div className="app-wrapper">
             <Header/>
             <Navbar/>
 
             <div className="app-wrapper-content">
-                <Route path='/dialogs' render={() => <Dialogs
-                    // dialogsData={props.state.dialogPage.dialogs}
-                    // messagesData={props.state.dialogPage.messages}
-                    // dispatch={props.dispatch}
-                    // newMessage={props.state.dialogPage.newMessageText }
-                />}/>
-                <Route path='/profile' render={() =>
-                    <Profile
-                    // posts={props.state.profilePage.posts}
-                    // dispatch = {props.dispatch}
-                    // newPostText={props.state.profilePage.newPostText}
-
-                />}/>
-
+                <Route path='/dialogs' render={() => <Dialogs/>}/>
+                <Route path='/profile' render={() => <Profile/>}/>
+                <Route path='/users' render={() => <Users/>}/>
             </div>
         </div>
 
