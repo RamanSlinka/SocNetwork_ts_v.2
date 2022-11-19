@@ -12,11 +12,7 @@ type UserStateType = {
 }
 
 const initialState: UserStateType = {
-    users: [
-        {id: 1, followed: true, name: 'fullName', status: 'status', photos: {small: 'https://www.011global.com/Account/Slices/user-anonymous.png'}},
-        {id: 2, followed: false, name: 'fullName2', status: 'status', photos: {small: null}},
-        {id: 3, followed: true, name: 'fullName3', status: 'status', photos: {small: 'https://www.011global.com/Account/Slices/user-anonymous.png'}},
-    ]
+    users: []
 }
 
 const userReducer = (state = initialState, action: UsersActionType): UserStateType => {

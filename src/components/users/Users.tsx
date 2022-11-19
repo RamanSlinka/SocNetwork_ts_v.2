@@ -2,14 +2,22 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {setFollowedAC, setUnfollowedAC, setUsersAC, User} from "../../ redux/usersReducer";
 import {AppStateType} from "../../ redux/redux-store";
+import axios from "axios";
 
 const Users = () => {
 
     const users = useSelector<AppStateType, User[] | null>(state => state.usersPage.users)
     console.log(users)
     const dispatch = useDispatch()
+
     useEffect(() => {
-        dispatch(setUsersAC(users))
+    axios.get('https://social-network.samuraijs.com/api/1.0/users')
+            .then((res) => {
+             const users1=    res.data.items;
+                dispatch(setUsersAC(users1))
+            })
+
+
     }, [])
 
 const noImage = 'https://st2.depositphotos.com/1009634/7235/v/450/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg'
