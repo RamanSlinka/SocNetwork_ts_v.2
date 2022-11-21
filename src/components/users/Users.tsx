@@ -11,6 +11,7 @@ import {
 import {AppStateType} from "../../ redux/redux-store";
 import styles from './users.module.scss'
 import axios from "axios";
+import {Pagination, PaginationProps} from 'antd';
 
 const noImage = 'https://st2.depositphotos.com/1009634/7235/v/450/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg'
 
@@ -40,22 +41,37 @@ const Users = () => {
       dispatch(setCurrentPageAC(selectedPage))
     }
 
-    const pagesCount = Math.ceil(totalUsersCount / pageSize)
-    const pages = []
-    for(let i = 1; i < pagesCount; i++) {
-        pages.push(i)
-    }
+    // const pagesCount = Math.ceil(totalUsersCount / pageSize)
+    // const pages = []
+    // for(let i = 1; i < pagesCount; i++) {
+    //     pages.push(i)
+    // }
+
+
+
+    const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
+        if (type === 'prev') {
+            return <a>Previous</a>;
+        }
+        if (type === 'next') {
+            return <a>Next</a>;
+        }
+        return originalElement;
+    };
+
+
 
     return (
         <>
-            <div>
-                {pages.map((p) => {
-                    return <span key={p}
-                    className={ styles.selectedPage }
-                                 onClick={() => changeActivePage(p)}
-                    >{p}</span>
-                })}
-            </div>
+
+            <Pagination
+                 onChange={changeActivePage}
+                // onShowSizeChange={changeActivePage}  //Called when pageSize is changed	function(current, size)
+                current={currentPage}
+                total={totalUsersCount}
+                itemRender={itemRender}
+                // pageSizeOptions={[10, 20, 50, 100]}
+            />
 
             {users && users.map((u: User) => (
                 <div key={u.id}>
@@ -63,7 +79,7 @@ const Users = () => {
                         <img src={u.photos.small ? u.photos.small : noImage} alt="user photo"
                              style={{width: '80px', margin: '10px'}}/>
                         <div>
-                            <p>User description </p>
+                            <p>User : </p>
                             <p>{u.name}</p>
                             <span>{u.status}</span>
                         </div>
