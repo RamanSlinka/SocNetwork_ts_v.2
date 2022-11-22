@@ -5,13 +5,14 @@ import {
     setFollowedAC,
     setTotalUsersCountAC,
     setUnfollowedAC,
-    setUsersAC,
+    setUsersAC, toggleIsFetchingAC,
     User
 } from "../../ redux/usersReducer";
 import {AppStateType} from "../../ redux/redux-store";
 import styles from './users.module.scss'
 import axios from "axios";
 import {Pagination, PaginationProps} from 'antd';
+import Preloader from "../common/Preloader";
 
 const noImage = 'https://st2.depositphotos.com/1009634/7235/v/450/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg'
 
@@ -22,15 +23,19 @@ const Users = () => {
     const totalUsersCount = useSelector<AppStateType, number>(state => state.usersPage.totalUsersCount)
     const currentPage = useSelector<AppStateType, number>(state => state.usersPage.currentPage)
     const pageSize = useSelector<AppStateType, number>(state => state.usersPage.pageSize)
+    const isFetching = useSelector<AppStateType, boolean>(state => state.usersPage.isFetching)
     console.log(users)
     const dispatch = useDispatch()
 
     useEffect(() => {
+        dispatch(toggleIsFetchingAC(true))
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
             .then((res) => {
                 const usersData = res.data.items;
                 dispatch(setUsersAC(usersData))
                 dispatch(setTotalUsersCountAC(res.data.totalCount))
+
+                dispatch(toggleIsFetchingAC(false))
             })
 
 
@@ -63,7 +68,7 @@ const Users = () => {
 
     return (
         <>
-
+            { isFetching && <Preloader/>}
             <Pagination
                  onChange={changeActivePage}
                 // onShowSizeChange={changeActivePage}  //Called when pageSize is changed	function(current, size)
