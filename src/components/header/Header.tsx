@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../ redux/redux-store";
 import {setUserData} from "../../ redux/authReducer";
 import {NavLink} from "react-router-dom";
+import {authAPI} from "../../api/api";
 
 const Header = () => {
 
@@ -14,12 +15,10 @@ const Header = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        axios.get('https://social-network.samuraijs.com/api/1.0/auth/me',
-            {withCredentials: true})
-
-            .then((res) => {
-                if (res.data.resultCode === 0) {
-                    let {id, email, login} = res.data.data
+        authAPI.authMe()
+            .then((data) => {
+                if (data.resultCode === 0) {
+                    let {id, email, login} = data.data
                     dispatch(setUserData(id, email, login))
                 }
 
