@@ -5,15 +5,14 @@ import {
     setFollowedAC,
     setTotalUsersCountAC,
     setUnfollowedAC,
-    setUsersAC, toggleIsFetchingAC,
+    setUsersAC, toggleFollowingAC, toggleIsFetchingAC,
     User
 } from "../../ redux/usersReducer";
 import {AppStateType} from "../../ redux/redux-store";
-import styles from './users.module.scss'
-import axios from "axios";
 import {Pagination, PaginationProps} from 'antd';
 import Preloader from "../common/Preloader";
 import {NavLink} from "react-router-dom";
+import {userAPI} from "../../api/api";
 
 const noImage = 'https://st2.depositphotos.com/1009634/7235/v/450/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg'
 
@@ -25,18 +24,19 @@ const Users = () => {
     const currentPage = useSelector<AppStateType, number>(state => state.usersPage.currentPage)
     const pageSize = useSelector<AppStateType, number>(state => state.usersPage.pageSize)
     const isFetching = useSelector<AppStateType, boolean>(state => state.usersPage.isFetching)
-    // console.log(users)
+    const followingInProgress = useSelector<AppStateType, number[]>(state =>
+        state.usersPage.followingInProgress)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(toggleIsFetchingAC(true))
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`,
-            {withCredentials: true})
-            .then((res) => {
-                const usersData = res.data.items;
-                dispatch(setUsersAC(usersData))
-                dispatch(setTotalUsersCountAC(res.data.totalCount))
 
+        userAPI.getUsers(currentPage, pageSize)
+            .then((data) => {
+                const usersData = data.items;
+                dispatch(setUsersAC(usersData))
+                dispatch(setTotalUsersCountAC(data.totalCount))
                 dispatch(toggleIsFetchingAC(false))
             })
 
@@ -93,32 +93,32 @@ const Users = () => {
                     </div>
                     <div>
                         {u.followed
-                            ? <button onClick={() => {
-                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/ ${u.id}`,
-                                    {withCredentials: true,
-                                        headers:  {'API-KEY' : 'e98254e3-f006-4d39-b52d-ad99d83a542e'
-                                    }},
-                                   )
-                                    .then((res) => {
-                                        if (res.data.resultCode === 0) {
+                            ? <button
+                                disabled = {followingInProgress.some(id => id === u.id)}
+                                onClick={() => {
+                                    dispatch(toggleFollowingAC(true, u.id))
+                                userAPI.deleteFriend(u.id)
+                                    .then((data) => {
+                                        if (data.resultCode === 0) {
                                             dispatch(setUnfollowedAC(u.id))
                                         }
+                                        dispatch(toggleFollowingAC(false, u.id))
                                     })
 
                             }
 
 
                             }>Unfollow</button>
-                            : <button onClick={() => {
-                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/ ${u.id}`,{},
-                                    {withCredentials: true,
-                                        headers: {
-                                            'API-KEY': 'e98254e3-f006-4d39-b52d-ad99d83a542e'
-                                        }})
-                                    .then((res) => {
-                                        if (res.data.resultCode === 0) {
+                            : <button
+                                disabled = {followingInProgress.some(id => id === u.id)}
+                                onClick={() => {
+                                    dispatch(toggleFollowingAC(true, u.id))
+                                userAPI.addFriend(u.id)
+                                    .then((data) => {
+                                        if (data.resultCode === 0) {
                                             dispatch(setFollowedAC(u.id))
                                         }
+                                        dispatch(toggleFollowingAC(false, u.id))
                                     })
                             }
                             }>Follow</button>

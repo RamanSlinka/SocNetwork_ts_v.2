@@ -7,12 +7,14 @@ export type User = {
     uniqueUrlName?: string | null
 }
 
+
 type UserStateType = {
     users: User[]
     pageSize: number
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: number[]
 }
 
 const initialState: UserStateType = {
@@ -20,7 +22,8 @@ const initialState: UserStateType = {
     pageSize: 10,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 }
 
 const userReducer = (state = initialState, action: UsersActionType): UserStateType => {
@@ -68,6 +71,13 @@ const userReducer = (state = initialState, action: UsersActionType): UserStateTy
                 ...state,
                 isFetching: action.isFetching
             }
+        case "TOGGLE-FOLLOWING":
+            return {
+                ...state,
+                followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id != action.userId)
+            }
         default :
             return state
     }
@@ -81,6 +91,7 @@ export type UsersActionType = SetUsersACType
     | SetTotalUsersCountACType
     | SetCurrentPageACType
     | ToggleIsFetchingACType
+    | ToggleIsFollowingACType
 
 type SetUsersACType = ReturnType<typeof setUsersAC>
 type SetFollowACType = ReturnType<typeof setFollowedAC>
@@ -88,6 +99,7 @@ type SetUnfollowACType = ReturnType<typeof setUnfollowedAC>
 type SetTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
 type SetCurrentPageACType = ReturnType<typeof setCurrentPageAC>
 type ToggleIsFetchingACType = ReturnType<typeof toggleIsFetchingAC>
+type ToggleIsFollowingACType = ReturnType<typeof toggleFollowingAC>
 
 export const setUsersAC = (users: any) => ({type: 'SET-USERS', users} as const)
 export const setFollowedAC = (userId: number) => ({type: 'SET-FOLLOW-USER', userId} as const)
@@ -95,5 +107,8 @@ export const setUnfollowedAC = (userId: number) => ({type: 'SET-UNFOLLOW-USER', 
 export const setTotalUsersCountAC = (totalCount: number) => ({type: 'SET-TOTAL-USERS-COUNT', totalCount} as const)
 export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
 export const toggleIsFetchingAC = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
+export const toggleFollowingAC = (isFetching: boolean, userId: number) => ({
+    type: 'TOGGLE-FOLLOWING', isFetching, userId} as const)
+
 
 export default userReducer;
