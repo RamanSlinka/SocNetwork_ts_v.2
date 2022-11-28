@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
 import style from './header.module.scss'
-import axios from "axios";
+
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../ redux/redux-store";
-import {setUserData} from "../../ redux/authReducer";
+import {getAuthUserData} from "../../ redux/authReducer";
 import {NavLink} from "react-router-dom";
-import {authAPI} from "../../api/api";
 
 const Header = () => {
 
@@ -15,14 +14,7 @@ const Header = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        authAPI.authMe()
-            .then((data) => {
-                if (data.resultCode === 0) {
-                    let {id, email, login} = data.data
-                    dispatch(setUserData(id, email, login))
-                }
-
-            })
+        dispatch (getAuthUserData())
     }, [])
 
     return (
