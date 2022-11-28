@@ -1,7 +1,6 @@
-// export type ProfileStateType = {
-//     posts: PostType[]
-//     newPostText: string | undefined
-// }
+import {AppThunkType} from "./redux-store";
+import {profileAPI} from "../api/api";
+
 
 export type PostType = {
     message: string | undefined
@@ -90,3 +89,14 @@ export type ProfileActionType = AddPostACType
 export const addPost = () => ({type: 'ADD-POST'} as const);
 export const updateNewPostText = (text: string | undefined) => ({type: 'UPDATE-NEW-POST-TEXT', newText: text} as const);
 export const setUserProfileAC = (profile: UserProfileType) => ({type: 'SET-USER-PROFILE', profile} as const)
+
+
+//thunk
+
+export const setProfile = (userId: number | null): AppThunkType => (dispatch) => {
+    profileAPI.getProfile(userId)
+        .then((data) => {
+
+            dispatch(setUserProfileAC(data))
+        })
+}
