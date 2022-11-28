@@ -1,3 +1,6 @@
+import {AppThunkType} from "./redux-store";
+import {userAPI} from "../api/api";
+
 export type User = {
     followed: boolean
     id: number
@@ -109,6 +112,47 @@ export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PA
 export const toggleIsFetchingAC = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
 export const toggleFollowingAC = (isFetching: boolean, userId: number) => ({
     type: 'TOGGLE-FOLLOWING', isFetching, userId} as const)
+
+
+//thunk
+
+export const getUsersThunk = (currentPage: number, pageSize: number): AppThunkType => (dispatch) => {
+    dispatch(toggleIsFetchingAC(true))
+    userAPI.getUsers(currentPage, pageSize)
+        .then((data) => {
+            const usersData = data.items;
+            dispatch(setUsersAC(usersData))
+            dispatch(setTotalUsersCountAC(data.totalCount))
+            dispatch(toggleIsFetchingAC(false))
+        })
+}
+
+
+export const unfollow = (userId: number): AppThunkType => (dispatch) => {
+    dispatch(toggleFollowingAC(true, userId))
+    userAPI.deleteFriend(userId)
+        .then((data) => {
+            if (data.resultCode === 0) {
+                dispatch(setUnfollowedAC(userId))
+            }
+            dispatch(toggleFollowingAC(false, userId))
+        })
+}
+
+export const follow = (userId: number): AppThunkType => (dispatch) => {
+    dispatch(toggleFollowingAC(true, userId))
+    userAPI.addFriend(userId)
+        .then((data) => {
+            if (data.resultCode === 0) {
+                dispatch(setFollowedAC(userId))
+            }
+            dispatch(toggleFollowingAC(false, userId))
+        })
+}
+
+
+
+
 
 
 export default userReducer;

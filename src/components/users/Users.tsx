@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
+    follow,
+    getUsersThunk,
     setCurrentPageAC,
     setFollowedAC,
-    setTotalUsersCountAC,
-    setUnfollowedAC,
-    setUsersAC, toggleFollowingAC, toggleIsFetchingAC,
+    setUnfollowedAC, toggleFollowingAC, unfollow,
     User
 } from "../../ redux/usersReducer";
 import {AppStateType} from "../../ redux/redux-store";
@@ -30,17 +30,7 @@ const Users = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(toggleIsFetchingAC(true))
-
-        userAPI.getUsers(currentPage, pageSize)
-            .then((data) => {
-                const usersData = data.items;
-                dispatch(setUsersAC(usersData))
-                dispatch(setTotalUsersCountAC(data.totalCount))
-                dispatch(toggleIsFetchingAC(false))
-            })
-
-
+        dispatch(getUsersThunk(currentPage, pageSize))
     }, [currentPage])
 
 
@@ -57,10 +47,10 @@ const Users = () => {
 
     const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
         if (type === 'prev') {
-            return <a>Previous</a>;
+            return <a style={{color: 'white'}}> &#60; Previous</a>;
         }
         if (type === 'next') {
-            return <a>Next</a>;
+            return <a  style={{color: 'white'}}>Next &#62; </a>;
         }
         return originalElement;
     };
@@ -94,34 +84,16 @@ const Users = () => {
                     <div>
                         {u.followed
                             ? <button
-                                disabled = {followingInProgress.some(id => id === u.id)}
+                                disabled={followingInProgress.some(id => id === u.id)}
                                 onClick={() => {
-                                    dispatch(toggleFollowingAC(true, u.id))
-                                userAPI.deleteFriend(u.id)
-                                    .then((data) => {
-                                        if (data.resultCode === 0) {
-                                            dispatch(setUnfollowedAC(u.id))
-                                        }
-                                        dispatch(toggleFollowingAC(false, u.id))
-                                    })
-
-                            }
-
-
-                            }>Unfollow</button>
+                                    dispatch(unfollow(u.id))
+                                }}>Unfollow</button>
                             : <button
-                                disabled = {followingInProgress.some(id => id === u.id)}
+                                disabled={followingInProgress.some(id => id === u.id)}
                                 onClick={() => {
-                                    dispatch(toggleFollowingAC(true, u.id))
-                                userAPI.addFriend(u.id)
-                                    .then((data) => {
-                                        if (data.resultCode === 0) {
-                                            dispatch(setFollowedAC(u.id))
-                                        }
-                                        dispatch(toggleFollowingAC(false, u.id))
-                                    })
-                            }
-                            }>Follow</button>
+                                    dispatch(follow(u.id))
+                                }
+                                }>Follow</button>
                         }
 
                     </div>
