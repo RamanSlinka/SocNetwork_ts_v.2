@@ -5,6 +5,7 @@ import Message from "./message/Message";
 import {addMessage, DialogType, MessageType, updateNewMessageText} from "../../ redux/dialogReducer";
 import { AppStateType} from "../../ redux/redux-store";
 import {useDispatch, useSelector} from "react-redux";
+import {Redirect} from "react-router-dom";
 
 
 type DialogsType = {
@@ -18,6 +19,9 @@ const Dialogs: FC = () => {
     const dialogsData = useSelector<AppStateType, DialogType[]>(state => state.dialogPage.dialogs)
     const messagesData = useSelector<AppStateType, MessageType[]>(state => state.dialogPage.messages)
     const newMessage = useSelector<AppStateType, string | undefined>(state => state.dialogPage.newMessageText)
+    const isAuth = useSelector<AppStateType, boolean>(state => state.isAuth.isAuth)
+
+
     const dispatch = useDispatch()
 
     const sendMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,6 +32,9 @@ const Dialogs: FC = () => {
     const onClickHandler = () => {
         dispatch(addMessage())
     }
+
+
+    if(!isAuth) {return    <Redirect to='/login'/> }
 
     return (
         <div className={style.dialogs}>

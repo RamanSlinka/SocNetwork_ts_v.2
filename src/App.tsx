@@ -6,6 +6,7 @@ import Profile from './components/profile/Profile';
 import Dialogs from "./components/dialogs/Dialogs";
 import {Route} from "react-router-dom";
 import Users from "./components/users/Users";
+import Login from './components/login/Login';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                 <Route path='/dialogs' render={() => <Dialogs/>}/>
                 <Route path='/profile/:userId?' render={() => <Profile/>}/>
                 <Route path='/users' render={() => <Users/>}/>
+                <Route path='/login' render={() => <Login/>}/>
             </div>
         </div>
 
