@@ -1,62 +1,22 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import style from './profileInfo.module.scss'
-import {setProfile} from "../../../ redux/profileReducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppStateType} from "../../../ redux/redux-store";
-
-
-
-type photos = {
-    small: string | null
-    large: string | null
-}
-type ProfileInfoType = {
-    userId: number | null
-    lookingForAJob: boolean | null
-    lookingForAJobDescription: string | null
-    fullName: string | null
-    contacts: contacts
-    photos: photos
-}
-type contacts = {
-    github: string | null
-    vk: string | null
-    facebook: string | null
-    instagram: string | null
-    twitter: string | null
-    website: string | null
-    youtube: string | null
-    mainLink: string | null
-}
-
-
+import avatar from '../../../assets/images/no-avatar.jpg'
+import {UserProfileType} from "../../../ redux/profileReducer";
 
 const ProfileInfo: FC = () => {
-    const avatar = 'https://ava-24.com/_ph/146/479768406.jpg'
 
-    const profile = useSelector<AppStateType, ProfileInfoType | null>(state => state.profilePage.userProfile)
-
-    const dispatch = useDispatch()
-
-
-    useEffect(() => {
-
-        const userId =profile && profile.userId
-        dispatch(setProfile(userId))
-
-        console.log(profile)
-        console.log(userId)
-    }, [])
-
-
+    const profile = useSelector<AppStateType, UserProfileType | null>(state => state.profilePage.userProfile)
 
     return (
 
         <div className={style.wrapper}>
             {profile &&
                 <>
-                    <div><img
-                        src={avatar}
+                    <div>
+                      <img
+                        src={profile.photos.large || avatar}
                         alt="avatar"
                         className={style.avatar}
                     />

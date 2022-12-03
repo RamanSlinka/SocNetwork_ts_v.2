@@ -3,16 +3,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     follow,
     getUsersThunk,
-    setCurrentPageAC,
-    setFollowedAC,
-    setUnfollowedAC, toggleFollowingAC, unfollow,
+    setCurrentPageAC, unfollow,
     User
 } from "../../ redux/usersReducer";
 import {AppStateType} from "../../ redux/redux-store";
 import {Pagination, PaginationProps} from 'antd';
 import Preloader from "../common/Preloader";
 import {NavLink} from "react-router-dom";
-import {userAPI} from "../../api/api";
 
 const noImage = 'https://st2.depositphotos.com/1009634/7235/v/450/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg'
 
@@ -43,6 +40,7 @@ const Users = () => {
     // for(let i = 1; i < pagesCount; i++) {
     //     pages.push(i)
     // }
+//
 
 
     const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
@@ -69,9 +67,13 @@ const Users = () => {
             />
 
             {users && users.map((u: User) => (
-                <div key={u.id}>
+                <div
+
+                    key={u.id}>
+
                     <div style={{display: 'flex', flexDirection: 'row'}}>
-                        <NavLink to={'/profile'}>
+                        <NavLink
+                            to={`/profile/${u.id}`}>
                             <img src={u.photos.small ? u.photos.small : noImage} alt="user photo"
                                  style={{width: '80px', margin: '10px'}}/>
                         </NavLink>

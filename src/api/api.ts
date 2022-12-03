@@ -35,7 +35,7 @@ export const profileAPI = {
         return instance.get(`profile/` + userId)
 
             .then(res => {
-                debugger
+                // debugger
                 return res.data
             })
     }

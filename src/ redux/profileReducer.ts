@@ -94,9 +94,10 @@ export const setUserProfileAC = (profile: UserProfileType) => ({type: 'SET-USER-
 //thunk
 
 export const setProfile = (userId: number | null): AppThunkType => (dispatch) => {
+   // debugger
     profileAPI.getProfile(userId)
         .then((data) => {
-
             dispatch(setUserProfileAC(data))
+
         })
 }
