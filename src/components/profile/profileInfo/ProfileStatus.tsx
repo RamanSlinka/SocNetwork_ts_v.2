@@ -1,13 +1,13 @@
-import React, {FC, useState} from 'react';
+import React, {ChangeEvent, FC, useState} from 'react';
 
 type ProfileStatusType = {
     status: string
 }
 
 const ProfileStatus: FC<ProfileStatusType> = ({status}) => {
-    const [editMode, setEditMode] = useState<boolean>(false)
-    const [value, setValue] = useState<string>(status)
 
+    const [editMode, setEditMode] = useState<boolean>(false)
+    const [value, setValue] = useState<string >(status)
 
     const activateStatusBar = () => {
         setEditMode(true)
@@ -16,17 +16,21 @@ const ProfileStatus: FC<ProfileStatusType> = ({status}) => {
     const deActivateStatusBar = () => {
         setEditMode(false)
     }
+
+    const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.value)
+    }
     return (
         <>
             {!editMode
                 ? <div>
-                    <span onDoubleClick={activateStatusBar}>{value}</span>
+                    <span onDoubleClick={activateStatusBar}>Status: {status}</span>
                 </div>
                 : <div>
                     <input
-                        value={value}
+                        value={status}
                         onBlur={deActivateStatusBar}
-                        onChange={(e) => setValue( e.currentTarget.value)}
+                        onChange={changeStatusHandler}
                         autoFocus={true}
                         type="text" placeholder='Enter your status'/>
                 </div>

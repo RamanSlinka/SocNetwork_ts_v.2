@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import style from './profile.module.scss'
 import MyPosts from "./myPosts/MyPosts";
 import ProfileInfo from "./profileInfo/ProfileInfo";
-import {PostType, setProfile} from "../../ redux/profileReducer";
+import {PostType, setProfile, setUserStatus, UserProfileType} from "../../ redux/profileReducer";
 import {AppStateType} from "../../ redux/redux-store";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect, useParams} from "react-router-dom";
@@ -16,6 +16,8 @@ type ProfileType = {
 
 const Profile: FC = () => {
     const {posts, newPostText} = useSelector<AppStateType, ProfileType>(state => state.profilePage)
+    const profile = useSelector<AppStateType, UserProfileType | null>(state => state.profilePage.userProfile)
+    const status = useSelector<AppStateType, string>(state => state.profilePage.status)
     const isAuth = useSelector<AppStateType, boolean>(state => state.isAuth.isAuth)
     const myUserId = useSelector<AppStateType, number | null>(state => state.isAuth.userId)
 
@@ -27,11 +29,13 @@ const Profile: FC = () => {
     useEffect(() => {
         if (!params.userId) {
             dispatch(setProfile(myUserId))
+            dispatch(setUserStatus(myUserId))
         } else {
             dispatch(setProfile(+params.userId))
+            dispatch(setUserStatus(+params.userId))
         }
 
-    }, [])
+    }, [status])
 
 
     if (!isAuth) {
@@ -42,7 +46,7 @@ const Profile: FC = () => {
 
     return (
         <div className={style.content}>
-            <ProfileInfo/>
+            <ProfileInfo profile={profile} status={status}/>
             <MyPosts posts={posts}
                      newPostText={newPostText}
 

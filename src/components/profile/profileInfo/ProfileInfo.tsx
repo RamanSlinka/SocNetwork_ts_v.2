@@ -1,14 +1,17 @@
 import React, {FC} from 'react';
 import style from './profileInfo.module.scss'
-import {useSelector} from "react-redux";
-import {AppStateType} from "../../../ redux/redux-store";
 import avatar from '../../../assets/images/no-avatar.jpg'
-import {UserProfileType} from "../../../ redux/profileReducer";
 import ProfileStatus from './ProfileStatus';
+import {UserProfileType} from "../../../ redux/profileReducer";
 
-const ProfileInfo: FC = () => {
+type ProfileInfoType = {
+    profile: UserProfileType | null
+    status: string
+}
 
-    const profile = useSelector<AppStateType, UserProfileType | null>(state => state.profilePage.userProfile)
+const ProfileInfo: FC<ProfileInfoType> = ({profile, status}) => {
+
+
 
     return (
 
@@ -21,7 +24,7 @@ const ProfileInfo: FC = () => {
                         alt="avatar"
                         className={style.avatar}
                     />
-                        <ProfileStatus status='Hello'/>
+                        <ProfileStatus status={status}/>
                     </div>
                     <div>
                         description:

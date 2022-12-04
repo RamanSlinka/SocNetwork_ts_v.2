@@ -35,6 +35,7 @@ type InitialStateType = {
     posts: PostType[]
     newPostText: string | undefined
     userProfile: UserProfileType | null
+    status: string
 }
 
 const posts = [
@@ -45,7 +46,8 @@ const posts = [
 const initialState: InitialStateType = {
     posts: posts,
     newPostText: '',
-    userProfile: null
+    userProfile: null,
+    status: ''
 }
 
 const profileReducer = (state = initialState, action: ProfileActionType): InitialStateType => {
@@ -70,6 +72,12 @@ const profileReducer = (state = initialState, action: ProfileActionType): Initia
                 ...state,
                 userProfile: action.profile
             }
+        case "SET-USER-STATUS": {
+            return {
+                ...state,
+                status: action.status
+            }
+        }
 
         default:
             return state
@@ -81,23 +89,31 @@ export default profileReducer;
 export type AddPostACType = ReturnType<typeof addPost>
 export type UpdateNewPostTextACType = ReturnType<typeof updateNewPostText>
 export type SetUserProfileACType = ReturnType<typeof setUserProfileAC>
+export type SetUserStatusACType = ReturnType<typeof setUserStatusAC>
 
 export type ProfileActionType = AddPostACType
     | UpdateNewPostTextACType
     | SetUserProfileACType
+    | SetUserStatusACType
 
 export const addPost = () => ({type: 'ADD-POST'} as const);
 export const updateNewPostText = (text: string | undefined) => ({type: 'UPDATE-NEW-POST-TEXT', newText: text} as const);
 export const setUserProfileAC = (profile: UserProfileType) => ({type: 'SET-USER-PROFILE', profile} as const)
-
+export const setUserStatusAC = (status: string) => ({type: 'SET-USER-STATUS', status} as const)
 
 //thunk
 
 export const setProfile = (userId: number | null): AppThunkType => (dispatch) => {
-   // debugger
     profileAPI.getProfile(userId)
         .then((data) => {
             dispatch(setUserProfileAC(data))
 
+        })
+}
+
+export const setUserStatus = (userId: number | null): AppThunkType => (dispatch) => {
+    profileAPI.getUsersStatus(userId)
+        .then(res => {
+            dispatch(setUserStatusAC(res.data))
         })
 }
