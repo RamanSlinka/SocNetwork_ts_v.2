@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {AppStateType} from "../../../ redux/redux-store";
 import avatar from '../../../assets/images/no-avatar.jpg'
 import {UserProfileType} from "../../../ redux/profileReducer";
+import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo: FC = () => {
 
@@ -20,6 +21,7 @@ const ProfileInfo: FC = () => {
                         alt="avatar"
                         className={style.avatar}
                     />
+                        <ProfileStatus status='Hello'/>
                     </div>
                     <div>
                         description:

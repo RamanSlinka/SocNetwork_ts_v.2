@@ -15,13 +15,13 @@ export const userAPI = {
                 return res.data
             })
     },
-    deleteFriend(id: number){
+    deleteFriend(id: number) {
         return instance.delete(`follow/ ${id}`)
             .then(res => {
                 return res.data
             })
     },
-    addFriend(id: number){
+    addFriend(id: number) {
         return instance.post(`follow/ ${id}`)
             .then(res => {
                 return res.data
@@ -31,20 +31,17 @@ export const userAPI = {
 }
 
 export const profileAPI = {
-    getProfile(userId: number | null){
+    getProfile(userId: number | null) {
         return instance.get(`profile/` + userId)
-
             .then(res => {
-                // debugger
                 return res.data
             })
     }
 }
 
 
-
 export const authAPI = {
-    authMe(){
+    authMe() {
         return instance.get('auth/me')
             .then(res => {
                 return res.data
