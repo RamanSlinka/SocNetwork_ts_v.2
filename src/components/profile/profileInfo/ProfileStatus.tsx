@@ -1,4 +1,6 @@
 import React, {ChangeEvent, FC, useState} from 'react';
+import { updateUserStatus} from "../../../ redux/profileReducer";
+import {useDispatch} from "react-redux";
 
 type ProfileStatusType = {
     status: string
@@ -7,7 +9,9 @@ type ProfileStatusType = {
 const ProfileStatus: FC<ProfileStatusType> = ({status}) => {
 
     const [editMode, setEditMode] = useState<boolean>(false)
-    const [value, setValue] = useState<string >(status)
+    let [value, setValue] = useState<string>(status)
+    const dispatch = useDispatch()
+
 
     const activateStatusBar = () => {
         setEditMode(true)
@@ -15,10 +19,12 @@ const ProfileStatus: FC<ProfileStatusType> = ({status}) => {
 
     const deActivateStatusBar = () => {
         setEditMode(false)
+        dispatch(updateUserStatus(value))
     }
 
     const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
+        value = e.currentTarget.value
+        setValue(value)
     }
     return (
         <>
@@ -28,7 +34,7 @@ const ProfileStatus: FC<ProfileStatusType> = ({status}) => {
                 </div>
                 : <div>
                     <input
-                        value={status}
+                        value={value}
                         onBlur={deActivateStatusBar}
                         onChange={changeStatusHandler}
                         autoFocus={true}

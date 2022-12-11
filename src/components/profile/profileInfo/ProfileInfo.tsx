@@ -24,7 +24,9 @@ const ProfileInfo: FC<ProfileInfoType> = ({profile, status}) => {
                         alt="avatar"
                         className={style.avatar}
                     />
-                        <ProfileStatus status={status}/>
+                        <ProfileStatus status={status} />
+
+
                     </div>
                     <div>
                         description:

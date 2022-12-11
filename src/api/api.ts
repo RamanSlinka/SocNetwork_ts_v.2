@@ -42,7 +42,7 @@ export const profileAPI = {
 
     },
     updateUsersStatus(status: string) {
-        return instance.put(`profile/` + {status})
+        return instance.put(`profile/status/` , {status})
     }
 }
 

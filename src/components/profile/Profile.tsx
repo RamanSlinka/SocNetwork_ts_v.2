@@ -6,6 +6,7 @@ import {PostType, setProfile, setUserStatus, UserProfileType} from "../../ redux
 import {AppStateType} from "../../ redux/redux-store";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect, useParams} from "react-router-dom";
+import {getAuthUserData} from "../../ redux/authReducer";
 
 type ProfileType = {
     posts: PostType[]
@@ -27,6 +28,7 @@ const Profile: FC = () => {
 
 
     useEffect(() => {
+        dispatch(getAuthUserData())
         if (!params.userId) {
             dispatch(setProfile(myUserId))
             dispatch(setUserStatus(myUserId))
@@ -34,7 +36,6 @@ const Profile: FC = () => {
             dispatch(setProfile(+params.userId))
             dispatch(setUserStatus(+params.userId))
         }
-
     }, [status])
 
 
@@ -46,7 +47,9 @@ const Profile: FC = () => {
 
     return (
         <div className={style.content}>
-            <ProfileInfo profile={profile} status={status}/>
+            <ProfileInfo profile={profile}
+                         status={status}
+            />
             <MyPosts posts={posts}
                      newPostText={newPostText}
 

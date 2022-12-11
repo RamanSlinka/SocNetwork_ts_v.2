@@ -117,3 +117,12 @@ export const setUserStatus = (userId: number | null): AppThunkType => (dispatch)
             dispatch(setUserStatusAC(res.data))
         })
 }
+
+export const updateUserStatus = (status: string): AppThunkType => (dispatch) => {
+    profileAPI.updateUsersStatus(status)
+        .then(res => {
+            if(res.data.resulCode === 0) {
+                dispatch(setUserStatusAC(status))
+            }
+        })
+}
