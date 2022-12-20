@@ -1,4 +1,4 @@
-import {useDispatch} from "react-redux";
+
 import {authAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
 
@@ -7,13 +7,15 @@ type InitialStateType = {
     email: null | string
     login: null | string
     isAuth: boolean
+    captchaUrl: null | string
 }
 
 let initialState: InitialStateType = {
     userId: null,
     email: null,
     login: null,
-    isAuth: false
+    isAuth: false,
+    captchaUrl: null
 }
 
 const authReducer = (state = initialState, action: AuthActionType): InitialStateType => {
@@ -25,6 +27,7 @@ const authReducer = (state = initialState, action: AuthActionType): InitialState
                 isAuth: true
             }
         }
+
         default:
             return state
     }
@@ -37,6 +40,8 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
     ({type: 'SET-USER-DATA', data: {userId, email, login}} as const)
 
 
+
+
 // thunk
 export const getAuthUserData = (): AppThunkType => (dispatch) => {
     authAPI.authMe()
@@ -45,6 +50,18 @@ export const getAuthUserData = (): AppThunkType => (dispatch) => {
                 let {id, email, login} = data.data
                 dispatch(setAuthUserData(id, email, login))
             }
+        })
+}
+
+export const login = (email: string, password: string, remember: boolean): AppThunkType =>
+    (dispatch) => {
+    authAPI.login(email, password, remember)
+        .then((data) => {
+            if(data.resultCode === 0) {
+                dispatch(getAuthUserData())
+            }
+
+
         })
 }
 
