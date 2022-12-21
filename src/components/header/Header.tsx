@@ -3,19 +3,21 @@ import style from './header.module.scss'
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../ redux/redux-store";
-import {getAuthUserData} from "../../ redux/authReducer";
+import {getAuthUserData, logout} from "../../ redux/authReducer";
 import {NavLink} from "react-router-dom";
 
 const Header = () => {
 
     const isAuth = useSelector<AppStateType, boolean>(state => state.isAuth.isAuth)
     const user = useSelector<AppStateType, string | null>(state => state.isAuth.email)
-    console.log(isAuth)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch (getAuthUserData())
-    }, [])
+    }, [isAuth])
+
+
+
 
     return (
         <header className={style.header}>
@@ -27,9 +29,11 @@ const Header = () => {
                 </div>
                 <div style={{float: 'right'}}>
                     {isAuth
-                        ? user
+                        ? <div>{user}   <button onClick={() => dispatch(logout())}>Logout</button></div>
                         : <NavLink to={'/login'} style={{color: 'white'}}>Login</NavLink>
                     }
+
+
                 </div>
             </div>
         </header>

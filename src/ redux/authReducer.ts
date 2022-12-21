@@ -1,4 +1,3 @@
-
 import {authAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
 
@@ -23,8 +22,7 @@ const authReducer = (state = initialState, action: AuthActionType): InitialState
         case "SET-USER-DATA" : {
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                ...action.payload
             }
         }
 
@@ -36,10 +34,8 @@ const authReducer = (state = initialState, action: AuthActionType): InitialState
 export type AuthActionType = SetUserDataACType
 type SetUserDataACType = ReturnType<typeof setAuthUserData>
 
-export const setAuthUserData = (userId: number | null, email: string | null, login: string | null) =>
-    ({type: 'SET-USER-DATA', data: {userId, email, login}} as const)
-
-
+export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) =>
+    ({type: 'SET-USER-DATA', payload: {userId, email, login, isAuth}} as const)
 
 
 // thunk
@@ -48,21 +44,29 @@ export const getAuthUserData = (): AppThunkType => (dispatch) => {
         .then((data) => {
             if (data.resultCode === 0) {
                 let {id, email, login} = data.data
-                dispatch(setAuthUserData(id, email, login))
+                dispatch(setAuthUserData(id, email, login, true))
             }
         })
 }
 
-export const login = (email: string, password: string, remember: boolean): AppThunkType =>
+export const login = (email: string, password: string, rememberMe: boolean): AppThunkType =>
     (dispatch) => {
-    authAPI.login(email, password, remember)
-        .then((data) => {
-            if(data.resultCode === 0) {
-                dispatch(getAuthUserData())
+        authAPI.login(email, password, rememberMe)
+            .then((data) => {
+                if (data.resultCode === 0) {
+                    dispatch(getAuthUserData())
+                }
+            })
+    }
+
+export const logout = (): AppThunkType => (dispatch) => {
+    authAPI.logout()
+        .then((res) => {
+                if (res.data.resultCode === 0) {
+                    dispatch(setAuthUserData(null, null, null, false))
+                }
             }
-
-
-        })
+        )
 }
 
 export default authReducer;
